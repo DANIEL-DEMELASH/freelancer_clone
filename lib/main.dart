@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:freelancer_clone/screens/login_screen.dart';
+
+import 'services/flutter_fire.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,12 +52,48 @@ class MyApp extends StatelessWidget {
             );
           }
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Freelance Clone',
             theme: ThemeData(
                 primarySwatch: Colors.blue,
                 scaffoldBackgroundColor: Colors.black),
-            home: const Scaffold(),
+            home: const Root(),
           );
         }));
+  }
+}
+
+class Root extends StatefulWidget {
+  const Root({super.key});
+
+  @override
+  State<Root> createState() => _RootState();
+}
+
+class _RootState extends State<Root> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: StreamBuilder(
+        stream: Auth(auth: _auth).user,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            if (snapshot.data?.uid == null) {
+              return LoginScreen(auth: _auth);
+            } else {
+              // return Home(auth: _auth, firestore: _firebaseFirestore);
+              return const Scaffold();
+            }
+          } else {
+            return const Center(
+              child: Text('loading...'),
+            );
+          }
+        },
+      ),
+    );
   }
 }
