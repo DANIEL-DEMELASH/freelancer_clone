@@ -1,0 +1,45 @@
+name: freelancer_clone
+description: A new Flutter project.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.2 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  cached_network_image: ^3.2.2
+  image_picker: ^0.8.6
+  image_cropper: ^3.0.1
+  fluttericon: ^2.0.0
+  # url_launcher: ^6.0.0
+  curved_navigation_bar: ^1.0.3
+  uuid: ^3.0.6
+  fluttertoast: ^8.1.1
+  firebase_auth: ^4.1.0
+  firebase_core: ^2.1.1
+  cloud_firestore: ^4.0.3
+  firebase_storage: ^11.0.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.0
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/images/login.png
+    - assets/images/signup.png
+    - assets/images/wallpaper.jpg
+
+  fonts:
+    - family: Signatra
+      fonts:
+        - asset: assets/fonts/Signatra.ttf
+          style: italic
