@@ -1,11 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:freelancer_clone/screens/login_screen.dart';
+import 'package:freelancer_clone/screens/auth_screen.dart';
 
-import 'services/flutter_fire.dart';
+import 'services/auth.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
@@ -71,21 +70,17 @@ class Root extends StatefulWidget {
 }
 
 class _RootState extends State<Root> {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  // final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder(
-        stream: Auth(auth: _auth).user,
+        stream: Auth().authStateChanges,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.data?.uid == null) {
-              return LoginScreen(auth: _auth);
+              return const AuthScreen();
             } else {
-              // return Home(auth: _auth, firestore: _firebaseFirestore);
-              return const Scaffold();
+              return const Display();
             }
           } else {
             return const Center(
@@ -95,5 +90,28 @@ class _RootState extends State<Root> {
         },
       ),
     );
+  }
+}
+
+class Display extends StatelessWidget {
+  const Display({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(Auth().currentUser!.email.toString()),
+              TextButton(
+                  onPressed: () async {
+                    await Auth().signOut(context);
+                  },
+                  child: const Text('logout'))
+            ],
+          ),
+        ));
   }
 }
