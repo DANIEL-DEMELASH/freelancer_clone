@@ -78,7 +78,7 @@ class _AuthScreenState extends State<AuthScreen>
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
               Container(

@@ -2,63 +2,28 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:freelancer_clone/screens/auth_screen.dart';
 
+import 'screens/user_display_screen.dart';
 import 'services/auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  await Firebase.initializeApp();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
-
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: _initialization,
-        builder: ((context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const MaterialApp(
-              home: Scaffold(
-                body: Center(
-                  child: Text(
-                    'Freelancer clone app is being initialized',
-                    style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.cyan,
-                        fontFamily: 'Signatra'),
-                  ),
-                ),
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return MaterialApp(
-              home: Scaffold(
-                body: Center(
-                  child: Text(
-                    snapshot.error.toString(),
-                    style: const TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.cyan,
-                        fontFamily: 'Signatra'),
-                  ),
-                ),
-              ),
-            );
-          }
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Freelance Clone',
-            theme: ThemeData(
-                primarySwatch: Colors.blue,
-                scaffoldBackgroundColor: Colors.black),
-            home: const Root(),
-          );
-        }));
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Freelance Clone',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const Root(),
+    );
   }
 }
 
@@ -90,28 +55,5 @@ class _RootState extends State<Root> {
         },
       ),
     );
-  }
-}
-
-class Display extends StatelessWidget {
-  const Display({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(Auth().currentUser!.email.toString()),
-              TextButton(
-                  onPressed: () async {
-                    await Auth().signOut(context);
-                  },
-                  child: const Text('logout'))
-            ],
-          ),
-        ));
   }
 }

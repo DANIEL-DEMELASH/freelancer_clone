@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:freelancer_clone/main.dart';
 
 class Auth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -73,6 +75,18 @@ class Auth {
       debugPrint(e.message);
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<void> forgetPassword(
+      {required String email, required BuildContext context}) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      Fluttertoast.showToast(msg: 'password reset email sent');
+      Navigator.push(
+          context, MaterialPageRoute(builder: ((context) => const Root())));
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
     }
   }
 }
