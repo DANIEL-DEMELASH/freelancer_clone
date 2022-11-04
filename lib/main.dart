@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:freelancer_clone/screens/auth_screen.dart';
+import 'package:freelancer_clone/widgets/bottom_nav_bar.dart';
 
-import 'screens/user_display_screen.dart';
 import 'services/auth.dart';
 
 void main() async {
@@ -45,7 +45,7 @@ class _RootState extends State<Root> {
             if (snapshot.data?.uid == null) {
               return const AuthScreen();
             } else {
-              return const Display();
+              return const BottomNavBar();
             }
           } else {
             return const Center(
