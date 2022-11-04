@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:freelancer_clone/services/global_variables.dart';
+import 'package:freelancer_clone/widgets/job_widget.dart';
 
 class JobsScreen extends StatefulWidget {
   const JobsScreen({super.key});
@@ -10,6 +13,29 @@ class JobsScreen extends StatefulWidget {
 
 class _JobsScreenState extends State<JobsScreen> {
   String? _jobCategoryFilter;
+
+  @override
+  void initState() {
+    getMyData();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  void getMyData() async {
+    final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    setState(() {
+      name = userDoc.get('name');
+      userImage = userDoc.get('userImage');
+      location = userDoc.get('location');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +53,49 @@ class _JobsScreenState extends State<JobsScreen> {
                 color: Colors.black,
               )),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [],
-          ),
+        body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+          stream: FirebaseFirestore.instance
+              .collection('jobs')
+              .where('jobCategory', isEqualTo: _jobCategoryFilter)
+              .where(
+                'recruitment',
+                isEqualTo: true,
+              )
+              .orderBy('createdAt', descending: false)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.data?.docs.isNotEmpty == true) {
+                return ListView.builder(
+                    itemCount: snapshot.data?.docs.length,
+                    itemBuilder: ((context, index) {
+                      return JobWidget(
+                          jobTitle: snapshot.data?.docs[index]['jobTitle'],
+                          jobDescription: snapshot.data?.docs[index]
+                              ['jobDescription'],
+                          jobId: snapshot.data?.docs[index]['jobId'],
+                          uploadedBy: snapshot.data?.docs[index]['uploadedBy'],
+                          userImage: snapshot.data?.docs[index]['userImage'],
+                          name: snapshot.data?.docs[index]['name'],
+                          recruitment: snapshot.data?.docs[index]
+                              ['recruitment'],
+                          email: snapshot.data?.docs[index]['email'],
+                          location: snapshot.data?.docs[index]['location']);
+                    }));
+              } else {
+                return const Center(
+                  child: Text('There is no jobs available'),
+                );
+              }
+            }
+            return const Center(
+              child: Text('something went wrong'),
+            );
+          },
         ));
   }
 

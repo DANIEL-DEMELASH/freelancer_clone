@@ -50,6 +50,7 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
         child: Form(
           key: _uploadJobKey,
           child: ListView(
+            physics: const BouncingScrollPhysics(),
             children: [
               const Center(
                 child: Text(
@@ -66,6 +67,9 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
               const Text(
                 'Job Category',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 5,
               ),
               TextFormField(
                 onTap: () {
@@ -93,6 +97,9 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
                 'Job Title',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
+              const SizedBox(
+                height: 5,
+              ),
               TextFormField(
                 controller: _jobTitileText,
                 focusNode: _jobTitleFocusNode,
@@ -113,6 +120,9 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
               const Text(
                 'Job Description',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 5,
               ),
               TextFormField(
                 maxLines: 5,
@@ -136,6 +146,9 @@ class _UploadJobScreenState extends State<UploadJobScreen> {
               const Text(
                 'Job Deadline',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 5,
               ),
               TextFormField(
                 controller: _jobDeadlineText,
