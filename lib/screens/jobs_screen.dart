@@ -44,6 +44,19 @@ class _JobsScreenState extends State<JobsScreen> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
+          title: Text(
+            _jobCategoryFilter ?? 'All',
+            style: const TextStyle(color: Colors.black),
+          ),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.search,
+                  color: Colors.black,
+                ))
+          ],
           leading: IconButton(
               onPressed: () {
                 _showTaskCategoriesDialog(size: MediaQuery.of(context).size);
@@ -71,6 +84,7 @@ class _JobsScreenState extends State<JobsScreen> {
             } else if (snapshot.connectionState == ConnectionState.active) {
               if (snapshot.data?.docs.isNotEmpty == true) {
                 return ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     itemCount: snapshot.data?.docs.length,
                     itemBuilder: ((context, index) {
                       return JobWidget(
@@ -145,7 +159,9 @@ class _JobsScreenState extends State<JobsScreen> {
                 )),
             TextButton(
                 onPressed: () {
-                  _jobCategoryFilter = null;
+                  setState(() {
+                    _jobCategoryFilter = null;
+                  });
                   Navigator.pop(context);
                 },
                 child: const Text('cancel filter',
