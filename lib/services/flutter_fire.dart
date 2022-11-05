@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -46,4 +48,11 @@ Future uploadTask(
         fontSize: 18,
         toastLength: Toast.LENGTH_LONG);
   }
+}
+
+Future<void> uploadCv({required File cv, required String jobId}) async {
+  // try {
+  //   DocumentReference documentReference =
+  //       FirebaseFirestore.instance.collection('jobs').doc(jobId);
+  // } catch (e) {}
 }

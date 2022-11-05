@@ -33,14 +33,3 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
-
-  assets:
-    - assets/images/login.png
-    - assets/images/signup.png
-    - assets/images/wallpaper.jpg
-
-  fonts:
-    - family: Signatra
-      fonts:
-        - asset: assets/fonts/Signatra.ttf
-          style: italic

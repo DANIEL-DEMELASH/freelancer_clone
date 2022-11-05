@@ -6,6 +6,8 @@ import 'package:freelancer_clone/screens/jobs_screen.dart';
 import 'package:freelancer_clone/screens/profile_screen.dart';
 import 'package:freelancer_clone/screens/upload_job_screen.dart';
 
+import '../screens/my_jobs_screen.dart';
+
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
 
@@ -18,6 +20,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   final List<Widget> _screens = [
     const JobsScreen(),
+    const MyJobsScreen(),
     const UploadJobScreen(),
     const ProfileScreen()
   ];
@@ -32,6 +35,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           height: 60.0,
           items: const <Widget>[
             Icon(Icons.list, size: 19),
+            Icon(Icons.view_list_rounded),
             Icon(Icons.add, size: 19),
             Icon(Icons.person_pin, size: 19),
           ],
