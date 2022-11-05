@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:freelancer_clone/screens/update_profile_screen.dart';
 
 import '../services/auth.dart';
 
@@ -45,9 +46,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Spacer(
-                    flex: 2,
-                  ),
+                  const Spacer(),
                   Stack(children: [
                     Center(
                       child: Container(
@@ -65,11 +64,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Positioned(
                         right: size.width / 2,
                         bottom: 0,
-                        child: const CircleAvatar(
+                        child: CircleAvatar(
                           backgroundColor: Colors.orange,
-                          child: Icon(
-                            Icons.edit,
-                            color: Colors.white,
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => UpdateProfileScreen(
+                                          fullName: data['name'],
+                                          emailAddress: data['email'],
+                                          phoneNumber: data['phone'],
+                                          profileImage: data['userImage'],
+                                          location: data['location'])));
+                            },
+                            icon: const Icon(
+                              Icons.edit,
+                              color: Colors.white,
+                            ),
                           ),
                         )),
                   ]),
@@ -87,6 +99,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ListTile(
                     leading: const Icon(Icons.phone),
                     title: Text(data['phone']),
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: const Icon(Icons.location_pin),
+                    title: Text(data['location']),
                   ),
                   const Divider(),
                   ListTile(

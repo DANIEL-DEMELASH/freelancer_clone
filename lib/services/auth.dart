@@ -16,6 +16,8 @@ class Auth {
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+
   String imageUrl = '';
 
   Future<void> signIn(
@@ -51,7 +53,7 @@ class Auth {
           FirebaseStorage.instance.ref().child('userImages').child('$uid.jpg');
       await ref.putFile(imageFile);
       imageUrl = await ref.getDownloadURL();
-      FirebaseFirestore.instance.collection('users').doc(uid).set({
+      users.doc(uid).set({
         'id': uid,
         'userImage': imageUrl,
         'name': name,
@@ -87,6 +89,45 @@ class Auth {
           context, MaterialPageRoute(builder: ((context) => const Root())));
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
+  Future<void> updateProfile(
+      {required String name,
+      required String email,
+      required String phone,
+      required String location,
+      required bool isImageChanged,
+      required File image}) async {
+    try {
+      final uid = FirebaseAuth.instance.currentUser!.uid;
+      if (isImageChanged) {
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('userImages')
+            .child('$uid.jpg');
+        await ref.delete();
+        await ref.putFile(image);
+        imageUrl = await ref.getDownloadURL();
+        await users.doc(uid).update({
+          'name': name,
+          'email': email,
+          'phone': phone,
+          'location': location,
+          'userImage': imageUrl
+        });
+      } else {
+        await users.doc(uid).update({
+          'name': name,
+          'email': email,
+          'phone': phone,
+          'location': location,
+        });
+      }
+    } on FirebaseAuthException catch (e) {
+      debugPrint(e.message);
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 }
