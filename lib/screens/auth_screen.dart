@@ -81,24 +81,17 @@ class _AuthScreenState extends State<AuthScreen>
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 height: 45,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(
-                    16.0,
-                  ),
-                ),
                 child: TabBar(
                   controller: _tabController,
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(
                       16.0,
                     ),
-                    color: Colors.cyan,
                   ),
-                  labelColor: Colors.white,
-                  unselectedLabelColor: Colors.cyan,
+                  labelColor: Colors.cyan,
+                  unselectedLabelColor: Colors.black,
                   tabs: const [
                     Tab(
                       text: 'Login',
@@ -202,7 +195,21 @@ class _AuthScreenState extends State<AuthScreen>
         key: _loginFormKey,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const Center(
+              child: Text(
+                'WELCOME BACK.',
+                style: TextStyle(fontSize: 30),
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+            const Text(
+              'Email: ',
+              style: TextStyle(fontSize: 15),
+            ),
             TextFormField(
               textInputAction: TextInputAction.next,
               onEditingComplete: (() =>
@@ -217,11 +224,39 @@ class _AuthScreenState extends State<AuthScreen>
               },
               style: const TextStyle(color: Colors.black),
               decoration: textInputStyle.copyWith(
-                hintText: 'Email Address',
-              ),
+                  hintText: 'Enter your email',
+                  hintStyle: const TextStyle(letterSpacing: 2)),
             ),
             const SizedBox(
-              height: 5,
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Password: ',
+                  style: TextStyle(fontSize: 15),
+                ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const ForgetPasswordScreen()));
+                    },
+                    child: const Text(
+                      'Forget password?',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             TextFormField(
               textInputAction: TextInputAction.next,
@@ -236,7 +271,8 @@ class _AuthScreenState extends State<AuthScreen>
               },
               style: const TextStyle(color: Colors.black),
               decoration: textInputStyle.copyWith(
-                  hintText: 'Password',
+                  hintText: 'Your password',
+                  hintStyle: const TextStyle(letterSpacing: 2),
                   suffixIcon: GestureDetector(
                     onTap: () {
                       setState(() {
@@ -250,28 +286,7 @@ class _AuthScreenState extends State<AuthScreen>
                   )),
             ),
             const SizedBox(
-              height: 15,
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ForgetPasswordScreen()));
-                },
-                child: const Text(
-                  'Forget password?',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 17,
-                      fontStyle: FontStyle.italic),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
+              height: 30,
             ),
             MaterialButton(
               onPressed: () async {
@@ -283,17 +298,14 @@ class _AuthScreenState extends State<AuthScreen>
                 }
               },
               color: Colors.cyan,
-              elevation: 8,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(13),
-              ),
+              elevation: 0,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     Text(
-                      'Login',
+                      'LOG IN',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -332,9 +344,9 @@ class _AuthScreenState extends State<AuthScreen>
                         decoration: BoxDecoration(
                             border:
                                 Border.all(width: 1, color: Colors.cyanAccent),
-                            borderRadius: BorderRadius.circular(20)),
+                            shape: BoxShape.circle),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(50),
                           child: imageFile == null
                               ? const Icon(
                                   Icons.camera_enhance_sharp,
@@ -363,7 +375,8 @@ class _AuthScreenState extends State<AuthScreen>
                     },
                     style: const TextStyle(color: Colors.black),
                     decoration: textInputStyle.copyWith(
-                        hintText: 'Full name/ Company name'),
+                        hintText: 'Full name/ Company name',
+                        hintStyle: const TextStyle(letterSpacing: 2)),
                   ),
                   const SizedBox(
                     height: 20,
@@ -383,8 +396,8 @@ class _AuthScreenState extends State<AuthScreen>
                     },
                     style: const TextStyle(color: Colors.black),
                     decoration: textInputStyle.copyWith(
-                      hintText: 'Email Address',
-                    ),
+                        hintText: 'Email Address',
+                        hintStyle: const TextStyle(letterSpacing: 2)),
                   ),
                   const SizedBox(
                     height: 20,
@@ -406,6 +419,7 @@ class _AuthScreenState extends State<AuthScreen>
                     style: const TextStyle(color: Colors.black),
                     decoration: textInputStyle.copyWith(
                         hintText: 'Password',
+                        hintStyle: const TextStyle(letterSpacing: 2),
                         suffixIcon: GestureDetector(
                           onTap: () {
                             setState(() {
@@ -438,8 +452,8 @@ class _AuthScreenState extends State<AuthScreen>
                     },
                     style: const TextStyle(color: Colors.black),
                     decoration: textInputStyle.copyWith(
-                      hintText: 'Phone number',
-                    ),
+                        hintText: 'Phone number',
+                        hintStyle: const TextStyle(letterSpacing: 2)),
                   ),
                   const SizedBox(
                     height: 20,
@@ -457,8 +471,8 @@ class _AuthScreenState extends State<AuthScreen>
                     },
                     style: const TextStyle(color: Colors.black),
                     decoration: textInputStyle.copyWith(
-                      hintText: 'Company Address',
-                    ),
+                        hintText: 'Company Address',
+                        hintStyle: const TextStyle(letterSpacing: 2)),
                   ),
                   const SizedBox(
                     height: 25,
@@ -479,16 +493,14 @@ class _AuthScreenState extends State<AuthScreen>
                       }
                     },
                     color: Colors.cyan,
-                    elevation: 8,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(13)),
+                    elevation: 0,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Text(
-                            'Signup',
+                            'SIGN UP',
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

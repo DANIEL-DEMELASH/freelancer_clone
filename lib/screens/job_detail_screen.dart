@@ -58,14 +58,36 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                             color: Colors.orange),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Image.network(
                             snapshot.data?.docs[0]['userImage'],
                             width: 80,
                           ),
+                          const Spacer(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                snapshot.data?.docs[0]['name'],
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Text(
+                                snapshot.data?.docs[0]['location'],
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          const Spacer(
+                            flex: 3,
+                          )
                         ],
                       ),
                       const SizedBox(
@@ -122,7 +144,6 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                         children: [
                           const Text('Uploaded on'),
                           Text(
-                            // '${snapshot.data?.docs[0]['createdAt']}',
                             x.toString(),
                             overflow: TextOverflow.fade,
                           )

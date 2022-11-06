@@ -34,8 +34,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
           index: 0,
           height: 60.0,
           items: const <Widget>[
-            Icon(Icons.list, size: 19),
-            Icon(Icons.view_list_rounded),
+            Icon(Icons.work, size: 19),
+            Icon(Icons.home_work_outlined),
             Icon(Icons.add, size: 19),
             Icon(Icons.person_pin, size: 19),
           ],
