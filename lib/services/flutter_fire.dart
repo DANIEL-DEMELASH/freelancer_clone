@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,13 +25,11 @@ Future uploadTask(
       'jobTitle': jobTitle,
       'jobDescription': jobDescription,
       'jobDeadlineDate': jobDeadlineDate,
-      'jobComments': [],
       'recruitment': true,
       'createdAt': Timestamp.now(),
       'name': name,
       'userImage': userImage,
       'location': location,
-      'applicants': 0
     });
     await Fluttertoast.showToast(
         msg: 'The task has been uploaded',
@@ -48,11 +44,4 @@ Future uploadTask(
         fontSize: 18,
         toastLength: Toast.LENGTH_LONG);
   }
-}
-
-Future<void> uploadCv({required File cv, required String jobId}) async {
-  // try {
-  //   DocumentReference documentReference =
-  //       FirebaseFirestore.instance.collection('jobs').doc(jobId);
-  // } catch (e) {}
 }

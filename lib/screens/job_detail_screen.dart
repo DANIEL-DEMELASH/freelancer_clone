@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class JobDetailScreen extends StatefulWidget {
   const JobDetailScreen({super.key, required this.jobId});
@@ -37,6 +39,9 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
               );
             } else if (snapshot.connectionState == ConnectionState.active) {
               if (snapshot.data?.docs.isNotEmpty == true) {
+                var uploadedDate =
+                    (snapshot.data?.docs[0]['createdAt']).toDate();
+                var x = DateFormat('yyyy-MM-dd').format(uploadedDate);
                 return Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(10),
@@ -67,24 +72,6 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                         height: 5,
                       ),
                       const Divider(),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                              '${snapshot.data?.docs[0]['applicants']} applicants'),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Icon(Icons.person_add)
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      const Divider(),
                       const Text(
                         'Job Description',
                         style: TextStyle(
@@ -102,7 +89,26 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                       const Divider(),
                       Center(
                         child: MaterialButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            String? encodeQueryParameters(
+                                Map<String, String> params) {
+                              return params.entries
+                                  .map((MapEntry<String, String> e) =>
+                                      '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                                  .join('&');
+                            }
+
+// ···
+                            final Uri emailLaunchUri = Uri(
+                              scheme: 'mailto',
+                              path: snapshot.data?.docs[0]['email'],
+                              query: encodeQueryParameters(<String, String>{
+                                'subject': snapshot.data?.docs[0]['jobTitle'],
+                              }),
+                            );
+
+                            launchUrl(emailLaunchUri);
+                          },
                           color: Colors.orange,
                           child: const Text(
                             'Easy Apply Now',
@@ -113,11 +119,11 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                       const Divider(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text('Uploaded on'),
+                        children: [
+                          const Text('Uploaded on'),
                           Text(
                             // '${snapshot.data?.docs[0]['createdAt']}',
-                            '',
+                            x.toString(),
                             overflow: TextOverflow.fade,
                           )
                         ],
