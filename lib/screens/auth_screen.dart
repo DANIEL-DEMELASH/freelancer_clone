@@ -90,7 +90,7 @@ class _AuthScreenState extends State<AuthScreen>
                       16.0,
                     ),
                   ),
-                  labelColor: Colors.cyan,
+                  labelColor: Colors.orange,
                   unselectedLabelColor: Colors.black,
                   tabs: const [
                     Tab(
@@ -297,7 +297,7 @@ class _AuthScreenState extends State<AuthScreen>
                       context: context);
                 }
               },
-              color: Colors.cyan,
+              color: Colors.orange,
               elevation: 0,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 14),
@@ -492,7 +492,7 @@ class _AuthScreenState extends State<AuthScreen>
                         );
                       }
                     },
-                    color: Colors.cyan,
+                    color: Colors.orange,
                     elevation: 0,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 14),
